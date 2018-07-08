@@ -1,0 +1,68 @@
+<!DOCTYPE html>  
+<head>  
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
+<title>html5+canvas随机绘图及坐标点击检测</title>  
+<style type="text/css">
+#drawCanvas { border:1px solid #000000}
+
+</style>
+
+<body>  
+<canvas id='drawCanvas' width='300' height='300'></canvas>
+<input type="button" value="add"  onClick="addRandomCircle();">
+<input type="button" value="clear"  onClick="clearCanvas();">
+
+<script>
+    window.addEventListener('load',evenWindowLoad,false);
+    function evenWindowLoad(){
+        canvasApp();
+    }
+    function canvasApp(){
+        let canvas = document.getElementById('drawCanvas');
+        let context = canvas.getContext('2d');
+        let  speed = 2,
+             y = 10,
+             x = 30,
+             direction = 'down',
+             time = 0;
+
+        function drawCanvas(){
+            context.fillStyle = '#eeeeee';
+            context.fillRect(0,0,300,300);
+            context.strokeStyle = '#000000';
+            context.strokeRect(1,1,298,298);
+            direction === 'down' ? y+=speed: y-=speed;
+            setdirection();
+            // y+=speed;
+
+            context.fillStyle = '#000000';
+            context.beginPath();
+            context.arc(x,y,15,0,Math.PI*2,true);
+            // context.closePath();
+            context.fill();
+
+            // context.fillStyle = 'yellow';
+            context.beginPath();
+            context.arc(150,150,15,0,Math.PI*(time+=0.01));
+            context.stroke();
+            context.closePath();
+            // context.fill();
+
+        }
+        function gameLoop(){
+            window.setTimeout(gameLoop,20);
+            drawCanvas();
+        }
+        gameLoop();
+        function  setdirection(){
+            if (y<0){
+                direction = 'down';
+            }
+            if (y>300){
+                direction = 'top';
+            }
+        }
+    }
+</script>
+</body>  
+</html>  
